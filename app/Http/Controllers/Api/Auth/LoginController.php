@@ -17,7 +17,7 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        return config('hydrate.client_url');
+        return config('tenancy.client_url');
     }
 
     /**
