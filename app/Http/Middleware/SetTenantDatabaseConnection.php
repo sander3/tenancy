@@ -31,11 +31,20 @@ class SetTenantDatabaseConnection
             throw $exception;
         }
 
+        if ($tenant instanceof Tenant) {
+            $this->switchDatabaseConnection($tenant);
+        }
+
         return $next($request);
     }
 
     public function isExplicit(string $mode)
     {
         return $mode === 'explicit';
+    }
+
+    public function switchDatabaseConnection(Tenant $tenant)
+    {
+        config(['database.connections.tenant' => $tenant->slug]);
     }
 }
