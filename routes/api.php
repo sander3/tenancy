@@ -12,12 +12,16 @@
 */
 
 // Authentication Routes
-Route::middleware('tenant', function () {
+Route::middleware('tenant')->group(function () {
     Route::post('register', 'Auth\RegisterController@register')->name('auth.register')->middleware('guest');
 
     Route::post('email', 'Auth\LinkController@sendMagicLinkEmail')->name('auth.email')->middleware(['guest', 'throttle:5,5']);
 
     Route::post('logout', 'Auth\LoginController@logout')->name('auth.logout')->middleware('auth');
+
+    Route::get('test/{tenant}', function (App\Tenant $tenant) {
+        return $tenant;
+    });
 });
 
 // Tenant Routes

@@ -45,6 +45,8 @@ class SetTenantDatabaseConnection
 
     public function switchDatabaseConnection(Tenant $tenant)
     {
-        config(['database.connections.tenant' => $tenant->slug]);
+        $name = 'tenant-' . $tenant->id;
+
+        config(['database.connections.tenant.database' => $name]);
     }
 }
