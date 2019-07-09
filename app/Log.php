@@ -3,7 +3,6 @@
 namespace App;
 
 use Monolog\Logger;
-use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model
 {

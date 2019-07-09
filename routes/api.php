@@ -22,6 +22,8 @@ Route::middleware('tenant')->group(function () {
     Route::get('test/{tenant}', function (App\Tenant $tenant) {
         return $tenant;
     });
+
+    Route::post('tenants', 'CreateTenant')->name('tenants.store');
 });
 
 // Tenant Routes

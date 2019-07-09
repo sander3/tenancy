@@ -17,4 +17,17 @@ class TenantTest extends TestCase
             ->assertSuccessful()
             ->assertJson($tenant->toArray());
     }
+
+    public function testTenantCreation()
+    {
+        $name = 'test ' . rand();
+
+        $response = $this->json('POST', '/api/tenants', ['name' => $name]);
+
+        $tenant = Tenant::where('name', $name)->firstOrFail();
+
+        $response
+            ->assertSuccessful()
+            ->assertJson($tenant->toArray());
+    }
 }

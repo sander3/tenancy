@@ -14,6 +14,13 @@ class User extends Authenticatable implements CanMagicallyLoginContract
     use Notifiable, CanMagicallyLogin;
 
     /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'mysql';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

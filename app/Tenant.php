@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
 {
