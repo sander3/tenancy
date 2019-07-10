@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
 {
@@ -40,5 +39,13 @@ class Tenant extends Model
         return Cache::remember($key, now()->addHour(), function () use ($value) {
             return Tenant::where('slug', $value)->firstOrFail();
         });
+    }
+
+    /**
+     * Get the portfolios for the tenant.
+     */
+    public function portfolios()
+    {
+        return $this->hasMany('App\Tenant\Portfolio');
     }
 }

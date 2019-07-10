@@ -14,6 +14,13 @@ class User extends Authenticatable implements CanMagicallyLoginContract
     use Notifiable, CanMagicallyLogin;
 
     /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = 'mysql';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -63,5 +70,13 @@ class User extends Authenticatable implements CanMagicallyLoginContract
                 'user_id'   => $this->id,
             ])
             ->exists();
+    }
+
+    /**
+     * The portfolios that belong to the user.
+     */
+    public function portfolios()
+    {
+        return $this->belongsToMany('App\Tenant\Portfolio');
     }
 }
