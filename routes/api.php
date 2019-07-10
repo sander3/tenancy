@@ -19,17 +19,13 @@ Route::middleware('tenant')->group(function () {
 
     Route::post('logout', 'Auth\LoginController@logout')->name('auth.logout')->middleware('auth');
 
-    Route::get('test/{tenant}', function (App\Tenant $tenant) {
-        return $tenant;
-    });
-
     Route::post('tenants', 'CreateTenant')->name('tenants.store');
 });
 
 // Tenant Routes
 Route::group([
-    'domain'     => '{tenant}' . config('tenancy.domain'),
+    'domain'     => '{tenant}.' . config('tenancy.domain'),
     'middleware' => 'tenant:explicit',
 ], function () {
-    //
+    Route::apiResource('portfolios', 'Tenant\PortfolioController');
 });

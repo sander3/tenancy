@@ -40,4 +40,12 @@ class Tenant extends Model
             return Tenant::where('slug', $value)->firstOrFail();
         });
     }
+
+    /**
+     * Get the portfolios for the tenant.
+     */
+    public function portfolios()
+    {
+        return $this->hasMany('App\Tenant\Portfolio');
+    }
 }

@@ -15,8 +15,13 @@ class CreatePortfoliosTable extends Migration
     {
         Schema::create('portfolios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('tenant_id');
             $table->string('name');
             $table->timestamps();
+
+            $table->foreign('tenant_id')
+                ->references('id')->on(config('database.connections.mysql.database') . '.tenants')
+                ->onDelete('cascade');
         });
     }
 

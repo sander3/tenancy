@@ -71,4 +71,12 @@ class User extends Authenticatable implements CanMagicallyLoginContract
             ])
             ->exists();
     }
+
+    /**
+     * The portfolios that belong to the user.
+     */
+    public function portfolios()
+    {
+        return $this->belongsToMany('App\Tenant\Portfolio');
+    }
 }
