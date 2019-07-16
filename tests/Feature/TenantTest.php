@@ -4,16 +4,12 @@ namespace Tests\Feature;
 
 use App\Tenant;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Artisan;
 
 class TenantTest extends TestCase
 {
     public function testTenantResolving()
     {
         $tenant = factory(Tenant::class)->create();
-
-        $this->createAndPopulateDatabase($tenant);
 
         $url = route('api.portfolios.index', $tenant->slug);
 
@@ -37,20 +33,13 @@ class TenantTest extends TestCase
             ->assertJson($tenant->toArray());
     }
 
-    private function createAndPopulateDatabase(Tenant $tenant)
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
     {
-        $name = 'tenant-' . $tenant->id;
-
-        DB::statement("CREATE DATABASE `$name`"); // Warning: only use model attributes to avoid SQL injection
-
-        config(['database.connections.tenant.database' => $name]);
-
-        $path = database_path('migrations/tenant');
-
-        Artisan::call('migrate', [
-            '--database' => 'tenant',
-            '--path'     => $path,
-            '--realpath' => true,
-        ]);
+        Tenant::all()->each->delete();
     }
 }

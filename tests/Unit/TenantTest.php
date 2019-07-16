@@ -5,18 +5,14 @@ namespace Tests\Unit;
 use App\Tenant;
 use Tests\TestCase;
 use App\Tenant\Portfolio;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Artisan;
 
 class TenantTest extends TestCase
 {
     public function testTenantSeparation()
     {
         $tenant1 = factory(Tenant::class)->create();
-        $this->createAndPopulateDatabase($tenant1);
 
         $tenant2 = factory(Tenant::class)->create();
-        $this->createAndPopulateDatabase($tenant2);
 
         $tenant2->portfolios()->save(
             factory(Portfolio::class)->make()
@@ -36,20 +32,13 @@ class TenantTest extends TestCase
             ->assertJson($tenant2->portfolios->toArray());
     }
 
-    private function createAndPopulateDatabase(Tenant $tenant)
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
     {
-        $name = 'tenant-' . $tenant->id;
-
-        DB::statement("CREATE DATABASE `$name`"); // Warning: only use model attributes to avoid SQL injection
-
-        config(['database.connections.tenant.database' => $name]);
-
-        $path = database_path('migrations/tenant');
-
-        Artisan::call('migrate', [
-            '--database' => 'tenant',
-            '--path'     => $path,
-            '--realpath' => true,
-        ]);
+        Tenant::all()->each->delete();
     }
 }
